@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {Button} from "./index";
+import {Button} from "../index";
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-
-console.log(PropTypes);
 
 const Pizza = ({imageUrl, name, price, sizes, types}) => {
     const availableTypes = ['тонкое', 'традиционное'];
