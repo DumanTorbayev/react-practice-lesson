@@ -1,11 +1,11 @@
 import React, {memo, useEffect, useRef, useState} from 'react';
 import arrowTopSvgIcon from "../assets/images/arrow-top.svg";
+import PropTypes from "prop-types";
 
-const SortPopup = ({items}) => {
+const SortPopup = ({items, handleSortByType, activeSortType}) => {
     const [visiblePopup, setVisiblePopup] = useState(false);
-    const [activeItem, setActiveItem] = useState(0);
     const sortRef = useRef();
-    const selectedLabel = items[activeItem].name;
+    const selectedLabel = items.find(obj => obj.type === activeSortType).name;
 
     useEffect(() => {
         document.body.addEventListener('click', handleOutsideClick);
@@ -21,8 +21,8 @@ const SortPopup = ({items}) => {
         }
     }
 
-    const onSelectItem = (index) => {
-        setActiveItem(index);
+    const onSelectItem = (obj) => {
+        handleSortByType(obj);
         setVisiblePopup(false);
     }
 
@@ -40,9 +40,9 @@ const SortPopup = ({items}) => {
                         {items &&
                             items.map((obj, index) =>
                                 <li
-                                    className={activeItem === index ? 'active' : ''}
+                                    className={activeSortType === obj.type ? 'active' : ''}
                                     key={`${index}_${obj.type}`}
-                                    onClick={() => onSelectItem(index)}
+                                    onClick={() => onSelectItem(obj)}
                                 >
                                     {obj.name}
                                 </li>)
@@ -53,5 +53,15 @@ const SortPopup = ({items}) => {
         </div>
     );
 };
+
+SortPopup.propTypes = {
+    activeSortType: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    handleSortByType: PropTypes.func.isRequired,
+}
+
+SortPopup.defaultProps = {
+    items: [],
+}
 
 export default memo(SortPopup); // memo для избавления от лишнего ререндера

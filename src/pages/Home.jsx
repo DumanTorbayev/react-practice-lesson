@@ -1,35 +1,59 @@
 import React, {useCallback, useEffect} from 'react';
 import {Categories, SortPopup, Pizza, PizzaLoadingBlock} from "../components";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategory} from "../redux/actions/filterActions";
+import {setCategory, setSortBy} from "../redux/actions/filterActions";
 import {getPizzas} from "../redux/actions/pizzasActions";
 
 
-const categoryNames = ['Bсe', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-const sortNames = [{name: 'популярности', type: 'popular'}, {name: 'цене', type: 'price'}, {name: 'алфавиту', type: 'alphabet'},];
+const categoryNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+const sortNames = [
+    {
+        name: 'популярности',
+        type: 'popular',
+        order: 'desc'
+    },
+    {
+        name: 'цене',
+        type: 'price',
+        order: 'desc'
+    },
+    {
+        name: 'алфавиту',
+        type: 'name',
+        order: 'asc'
+    },
+];
 
 const Home = () => {
     const pizzas = useSelector(({pizzas}) => pizzas.items);
     const isLoaded = useSelector(({pizzas}) => pizzas.isLoaded);
+    const {category, sortBy} = useSelector(({filters}) => filters)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getPizzas());
-    }, [])
+        dispatch(getPizzas(sortBy, category));
+    }, [category, sortBy])
 
     const handleSelectItem = useCallback(index => {
         dispatch(setCategory(index));
+    }, []);
+
+    const handleSortByType = useCallback(obj => {
+        dispatch(setSortBy(obj));
     }, []);
 
     return (
         <div className="container">
             <div className="content__top">
                 <Categories
-                    handleClickItem={handleSelectItem}
+                    activeCategory={category}
+                    handleClickCategory={handleSelectItem}
                     items={categoryNames}
                 />
                 <SortPopup
+                    activeSortType={sortBy.type}
                     items={sortNames}
+                    handleSortByType={handleSortByType}
                 />
             </div>
 
@@ -37,8 +61,8 @@ const Home = () => {
 
             <div className="content__items">
                 {isLoaded
-                    ? Array(8).fill(<PizzaLoadingBlock />)
-                    : pizzas.map((obj) => <Pizza key={obj.id} {...obj} />)
+                    ? pizzas.map((obj) => <Pizza key={obj.id} {...obj} />)
+                    : Array(8).fill(0).map((_, index) => <PizzaLoadingBlock key={index}/>)
                 }
             </div>
         </div>
