@@ -3,8 +3,11 @@ import svgLogo from "../assets/images/pizza-logo.svg";
 import svgCartIcon from "../assets/images/cart.svg";
 import Button from "./Button";
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const Header = (props) => {
+    const {totalPrice, itemsCount} = useSelector(({cart}) => cart);
+
     return (
         <div className="header">
             <div className="container">
@@ -20,10 +23,10 @@ const Header = (props) => {
                 <div className="header__cart">
                     <Link to='/cart'>
                         <Button className={'button--cart'}>
-                            <span>575 ₽</span>
+                            <span>{totalPrice} ₽</span>
                             <div className="button__delimiter"></div>
                             <img src={svgCartIcon} alt=""/>
-                            <span>3</span>
+                            <span>{itemsCount}</span>
                         </Button>
                     </Link>
                 </div>

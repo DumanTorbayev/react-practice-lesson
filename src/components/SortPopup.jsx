@@ -38,14 +38,14 @@ const SortPopup = ({items, handleSortByType, activeSortType}) => {
                 <div className="sort__popup">
                     <ul>
                         {items &&
-                            items.map((obj, index) =>
-                                <li
-                                    className={activeSortType === obj.type ? 'active' : ''}
-                                    key={`${index}_${obj.type}`}
-                                    onClick={() => onSelectItem(obj)}
-                                >
-                                    {obj.name}
-                                </li>)
+                        items.map((obj, index) =>
+                            <li
+                                className={activeSortType === obj.type ? 'active' : ''}
+                                key={`${index}_${obj.type}`}
+                                onClick={() => onSelectItem(obj)}
+                            >
+                                {obj.name}
+                            </li>)
                         }
                     </ul>
                 </div>
@@ -58,10 +58,10 @@ SortPopup.propTypes = {
     activeSortType: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
     handleSortByType: PropTypes.func.isRequired,
-}
+};
 
 SortPopup.defaultProps = {
     items: [],
-}
+};
 
 export default memo(SortPopup); // memo для избавления от лишнего ререндера

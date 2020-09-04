@@ -1,7 +1,8 @@
 import axios from "axios";
+import {SET_PIZZAS, SET_IS_LOADED} from "../reducers/pizzasReducers";
 
-export const setPizzas = (items) => ({type: 'SET_PIZZAS', payload: items});
-export const setIsLoaded = (value) => ({type: 'SET_IS_LOADED', payload: value});
+export const setPizzas = (items) => ({type: SET_PIZZAS, payload: items});
+export const setIsLoaded = (value) => ({type: SET_IS_LOADED, payload: value});
 
 export const getPizzas = (sortBy, category) => (dispatch) => {
     dispatch(setIsLoaded(false));

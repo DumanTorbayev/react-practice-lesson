@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 
 const Categories = ({activeCategory, items, handleClickCategory}) => {
-
     return (
         <div className="categories">
             <ul>
@@ -29,7 +28,7 @@ const Categories = ({activeCategory, items, handleClickCategory}) => {
 };
 
 Categories.propTypes = {
-    activeCategory: PropTypes.oneOf([PropTypes.number.isRequired, null]),
+    //activeCategory: PropTypes.oneOf([PropTypes.number.isRequired, null]),
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
     handleClickCategory: PropTypes.func.isRequired,
 }
